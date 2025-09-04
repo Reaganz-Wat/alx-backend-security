@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from datetime import datetime
-from django.utils.timezone import now
 import logging
+from .models import RequestLog
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,9 @@ class LogHeadersMiddlware():
         timestamp = datetime.now()
         path = request.get_full_path()
         
-        logger.info(f"Request from {ip_address} at {now()} to {path}")
+        RequestLog.objects.create(ip_address=ip_address, path=path)
+        
+        logger.info(f"Request from {ip_address} at {timestamp} to {path}")
         
         response = self.get_response(request)
         return response

@@ -135,3 +135,6 @@ LOGGING = {
         "level": "INFO",
     },
 }
+
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "192.168.144.141"]
+# ALLOWED_HOSTS = ["*"]  # This is for all networks, or anything to connect to and it is good for testing out things very fast
