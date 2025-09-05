@@ -1,4 +1,4 @@
-from django.core.management import BaseCommand
+from django.core.management.base import BaseCommand
 from ...models import BlockedIP
 
 class Command(BaseCommand):
@@ -11,4 +11,4 @@ class Command(BaseCommand):
         # Insert into BlockedIP Address
         BlockedIP.objects.create(ip_address=ip_address)
         
-        self.stdout.write(f"IP Address {ip_address} blocked")
+        self.stdout.write(self.style.SUCCESS(f"IP Address {ip_address} blocked"))
