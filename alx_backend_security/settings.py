@@ -11,9 +11,17 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load the .env
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+REDIS_HOST = os.getenv("REDIS_HOST", "127.0.0.1")
+REDIS_PORT = os.getenv("REDIS_PORT", "6379")
 
 
 # Quick-start development settings - unsuitable for production
@@ -48,8 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'ip_tracking.middleware.LogHeadersMiddlware',
-    'ip_tracking.middleware.BlockIP'
+    'ip_tracking.middleware.IPGeolocationMiddleware'
 ]
 
 ROOT_URLCONF = 'alx_backend_security.urls'
@@ -137,5 +144,15 @@ LOGGING = {
     },
 }
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "192.168.144.141"]
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/1",  # db 1
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+# ALLOWED_HOSTS = ["127.0.0.1", "localhost", "192.168.144.141"]
 # ALLOWED_HOSTS = ["*"]  # This is for all networks, or anything to connect to and it is good for testing out things very fast
