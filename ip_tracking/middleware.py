@@ -24,7 +24,7 @@ class IPGeolocationMiddleware:
 
         # --- Check if IP is blocked ---
         if BlockedIP.objects.filter(ip_address=ip_address).exists():
-            return HttpResponse("Forbidden", status=403)
+            return HttpResponse("Your IP Address is blocked", status=403)
 
         # --- Fetch geolocation from cache ---
         geo = cache.get(f"geo:{ip_address}")
