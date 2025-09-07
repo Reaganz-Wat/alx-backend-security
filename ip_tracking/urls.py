@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import try_caching
+from .views import login_view
 
 urlpatterns = [
-    path('student/', try_caching, name="try_caching"),
+    path('login/', login_view, name="login"),
 ]
